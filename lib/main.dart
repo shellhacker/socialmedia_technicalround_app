@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_offline/flutter_offline.dart';
+import 'package:socialmedia_technicalround_app/configs/theme.dart';
 
 import 'features/Authentication/presentation/splash_screen.dart';
-import 'features/reels/application/bloc/reels_bloc.dart';
 import 'injection_container.dart';
 
 void main() {
@@ -18,20 +17,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return OfflineBuilder(
-      connectivityBuilder: (context, connectivity, child) {
-        final bool connected = connectivity != ConnectivityResult.none;
-        if (connected) {
-          return MaterialApp(
-              debugShowCheckedModeBanner: false, home: SplashScreen()
+    return MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen()
 
-              //  HomePage(),
-              );
-        } else {
-          return MaterialApp(home: Scaffold(body: Text("data")));
-        }
-      },
-      child: Text('dswrfgegrrf'),
-    );
+        //  HomePage(),
+        );
   }
 }

@@ -10,9 +10,6 @@ import 'package:http/http.dart' as http;
 class ReelsRepositoryImpl implements ReelsRepository {
   @override
   Future getReelsData(String pagecount) async {
-    print(
-        ('https://api.ulearna.com/bytes/all?page=$pagecount&limit=10&country=United+States'));
-
     var request = http.Request(
         'GET',
         Uri.parse(
@@ -35,7 +32,8 @@ class ReelsRepositoryImpl implements ReelsRepository {
       return ReelsCompleted(responseData: responseData);
     } else {
       return ApiErrorResponseModel(
-          message: response.reasonPhrase.toString(),
+          message:
+              "${response.statusCode}: ${response.reasonPhrase.toString()}",
           statusCode: response.statusCode);
     }
   }

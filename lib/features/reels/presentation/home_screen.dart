@@ -8,14 +8,11 @@ import '../application/bloc/reels_bloc.dart';
 import 'widgets/video_card.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+  HomePage({super.key});
   final ScrollController scrollController = ScrollController();
 
   // List<Datum> feachedResponse = [];
   onScroll(BuildContext context) {
-    print(
-        "+++++++++++++++++++-----------------------+++++++++++++++++++++++++++++++++");
-
     final blocProvider = context.read<ReelsBloc>();
 
     if (blocProvider.isLoadingMore) return;
@@ -90,41 +87,62 @@ class HomePage extends StatelessWidget {
             child: BlocBuilder<ReelsBloc, ReelsState>(
               builder: (context, state) {
                 if (state is ReelsCompleted) {
-                  return Column(children: [
-                    Expanded(
-                        child: SizedBox(
-                            child: ListView.separated(
-                                controller: scrollController,
-                                physics: const ScrollPhysics(),
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                separatorBuilder: (context, index) {
-                                  return const SizedBox();
-                                },
-                                itemCount: state.isLoadingMore
-                                    ? state.responseData.length + 1
-                                    : state.responseData.length,
-                                itemBuilder: (context, index) {
-                                  if (index < state.responseData.length) {
-                                    return VideoCard(
-                                        index: index,
-                                        post: blocProvider
-                                            .feachedResponse[index]);
-                                  } else {
-                                    return const Center(
-                                        child: CircularProgressIndicator());
-                                  }
-                                })))
-                  ]);
+                  return state.responseData.isNotEmpty
+                      ? Column(children: [
+                          Expanded(
+                              child: SizedBox(
+                                  child: ListView.separated(
+                                      controller: scrollController,
+                                      physics: const ScrollPhysics(),
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.vertical,
+                                      separatorBuilder: (context, index) {
+                                        return const SizedBox();
+                                      },
+                                      itemCount: state.isLoadingMore
+                                          ? state.responseData.length + 1
+                                          : state.responseData.length,
+                                      itemBuilder: (context, index) {
+                                        if (index < state.responseData.length) {
+                                          return VideoCard(
+                                              index: index,
+                                              post: blocProvider
+                                                  .feachedResponse[index]);
+                                        } else {
+                                          return const Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        }
+                                      })))
+                        ])
+                      : Column(
+                          children: [
+                            Center(
+                                child: Text(
+                              "Reels Not Available",
+                              style: AppTheme.blackTextStyle,
+                            ))
+                          ],
+                        );
                 } else if (state is ReelsInitial &&
                     blocProvider.feachedResponse.isNotEmpty) {
                   return Center(
-                    child: Text("Reels Not Available"),
+                    child: Text(
+                      "Reels Not Available",
+                      style: AppTheme.blackTextStyle,
+                    ),
                   );
                 } else if (state is ReelsLoading &&
                     blocProvider.feachedResponse.isEmpty) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
+                  );
+                } else if (state is ReelsError) {
+                  return Center(
+                    child: Text(
+                      state.error,
+                      style: AppTheme.blackTextStyle,
+                    ),
                   );
                 }
                 return Column(children: [
