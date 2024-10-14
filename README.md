@@ -18,7 +18,7 @@ Lazy Loading: Improves performance by loading content only when necessary.
 Caching: Reduces the need for repeated API requests by caching video data.
 Error Handling: Handles potential errors during data retrieval or JSON parsing.
 Responsive Reels Page Design: Mimics a reels page with smooth scrolling and pagination.
-
+https://github.com/E-johnsEA/AirPrinters/invitations
 
 Android Apk Build : https://drive.google.com/file/d/1cR0apmJbCMlRYmTwgu2Y74NRtq7DZY_G/view?usp=drive_link  Git Repo Link: https://github.com/shellhacker/socialmedia_technicalround_app.git
    Instruction for running this project
